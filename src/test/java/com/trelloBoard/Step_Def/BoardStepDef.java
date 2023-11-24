@@ -1,4 +1,4 @@
-package com.testinium.Step_Defs;
+package com.trelloBoard.Step_Def;
 
 import com.testinium.Utilities.ConfigurationReader;
 import io.cucumber.java.Before;
@@ -9,9 +9,8 @@ import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
-
 import static io.restassured.RestAssured.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class BoardStepDef {
