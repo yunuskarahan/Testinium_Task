@@ -149,8 +149,8 @@ public class Test_StepDef {
 
         FileWriter fileWriter = new FileWriter(file, false);
         BufferedWriter bWriter = new BufferedWriter(fileWriter);
-        bWriter.write(price);
         bWriter.write(title);
+        bWriter.write(price);
         bWriter.close();
 
     }
