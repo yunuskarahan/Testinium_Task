@@ -1,6 +1,6 @@
-package com.beymen.Step_Defs;
+package com.testinium.Step_Defs;
 
-import com.beymen.Utilities.Driver;
+import com.testinium.Utilities.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;

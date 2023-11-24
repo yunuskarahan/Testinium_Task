@@ -1,4 +1,4 @@
-package com.beymen.Runners;
+package com.testinium.Runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -12,9 +12,9 @@ import org.junit.runner.RunWith;
                 "pretty", "summary", "html:target/default-html-reports",
                 "rerun:target/rerun.txt"},
         features = "src/test/resources/Features",
-        glue = "com/beymen/Step_Defs",
+        glue = "com/testinium/Step_Defs",
         dryRun = false,
-        tags = "@test"
+        tags = "@uiTest"
 
 
 

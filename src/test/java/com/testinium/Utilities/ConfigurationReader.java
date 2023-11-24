@@ -1,4 +1,4 @@
-package com.beymen.Utilities;
+package com.testinium.Utilities;
 
 import java.io.FileInputStream;
 import java.io.IOException;

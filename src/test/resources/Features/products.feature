@@ -1,6 +1,6 @@
 Feature: Testinium Task
 
-  @test
+  @uiTest
   Scenario: Beymen website testing
     Given Navigate to home page
     Then Verify that user should be see Home Page

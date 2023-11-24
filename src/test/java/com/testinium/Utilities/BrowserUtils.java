@@ -1,4 +1,4 @@
-package com.beymen.Utilities;
+package com.testinium.Utilities;
 
 
 import org.openqa.selenium.*;

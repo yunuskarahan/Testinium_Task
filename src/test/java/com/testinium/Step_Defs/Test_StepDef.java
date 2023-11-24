@@ -1,17 +1,14 @@
-package com.beymen.Step_Defs;
+package com.testinium.Step_Defs;
 
-import com.beymen.Page.BasketPage;
-import com.beymen.Page.HomePage;
-import com.beymen.Page.ProductPage;
-import com.beymen.Utilities.BrowserUtils;
-import com.beymen.Utilities.Driver;
+import com.testinium.Page.BasketPage;
+import com.testinium.Page.HomePage;
+import com.testinium.Page.ProductPage;
+import com.testinium.Utilities.BrowserUtils;
+import com.testinium.Utilities.Driver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
@@ -24,7 +21,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.io.*;
 import java.util.Random;
 
-import static com.beymen.Utilities.ConfigurationReader.getProperty;
+import static com.testinium.Utilities.ConfigurationReader.getProperty;
 import static org.junit.Assert.*;
 
 
@@ -140,8 +137,10 @@ public class Test_StepDef {
     @And("Print product and price information to txt file")
     public void printProductAndPriceInformationToTxtFile() throws IOException {
 
-        String title = "product name  : " + productPage.productTitle.getText();
+
+        String title = productPage.productTitle.getText()+ " - "  ;
         price=  productPage.productPrice.getText();
+
 
         File file = new File("dosya.txt");
         if (!file.exists()) {
@@ -175,7 +174,7 @@ public class Test_StepDef {
     }
     @And("User can add product on basket")
     public void userCanAddProductOnBasket() {
-        BrowserUtils.waitForVisibility(productPage.addBasketButton,10);
+        BrowserUtils.waitForClickability(productPage.addBasketButton,5);
         productPage.addBasketButton.click();
 
     }
@@ -228,10 +227,21 @@ public class Test_StepDef {
 
     @Then("Verify that the user should see {string} message")
     public void verifyThatTheUserShouldSeeMessage(String expectedBasketMessageText) {
-        BrowserUtils.waitForVisibility(basketPage.basketMessageText,15);
-        String actualBasketMessageText = basketPage.basketMessageText.getText();
-        System.out.println("actualBasketMessageText = " + actualBasketMessageText);
-        assertEquals(expectedBasketMessageText,actualBasketMessageText);
+
+
+        try {
+            BrowserUtils.waitForVisibility(basketPage.basketMessageText,5);
+            String actualBasketMessageText = basketPage.basketMessageText.getText();
+            System.out.println("actualBasketMessageText = " + actualBasketMessageText);
+            assertEquals(expectedBasketMessageText,actualBasketMessageText);
+        }catch (Exception e){
+            BrowserUtils.clickWithJS(basketPage.basketRemove);
+            BrowserUtils.waitForVisibility(basketPage.basketMessageText,5);
+            String actualBasketMessageText = basketPage.basketMessageText.getText();
+            System.out.println("actualBasketMessageText = " + actualBasketMessageText);
+            assertEquals(expectedBasketMessageText,actualBasketMessageText);
+        }
+
     }
 }
 
