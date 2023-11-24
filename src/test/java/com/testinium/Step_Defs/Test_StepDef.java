@@ -12,6 +12,7 @@ import io.cucumber.java.en.When;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -33,6 +34,7 @@ public class Test_StepDef {
     BasketPage basketPage = new BasketPage();
 
     Actions actions = new Actions(Driver.getDriver());
+    Random rand = new Random();
 
 
     String shirt, shorts,price;
@@ -198,8 +200,70 @@ public class Test_StepDef {
 
 
     @When("User selects the number of baskets {string}")
-    public void userSelectsTheNumberOfBaskets(String quantity) {
+    public void userSelectsTheNumberOfBaskets(String quantity) throws IOException {
 
+
+        boolean isOneOption =false;
+        while (!isOneOption){
+
+            int optionCount =basketPage.quantityOptions.findElements(By.tagName("option")).size();
+            if (optionCount == 1){
+                System.out.println("Stokta sadece 1 adet var ");
+                basketPage.basketRemove.click();
+                String shirtSearchPage = "https://www.beymen.com/search?q=g%C3%B6mlek" ;
+                Driver.getDriver().get(shirtSearchPage);
+
+
+                Random rand = new Random();
+                int randomProduct = rand.nextInt(productPage.randomProduct.size());
+                productPage.randomProduct.get(randomProduct).click();
+
+
+                String title = productPage.productTitle.getText()+ " - "  ;
+                price=  productPage.productPrice.getText();
+
+
+                File file = new File("dosya.txt");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+                FileWriter fileWriter = new FileWriter(file, false);
+                BufferedWriter bWriter = new BufferedWriter(fileWriter);
+                bWriter.write(title);
+                bWriter.write(price);
+                bWriter.close();
+
+
+                if (!productPage.sizeOptions.isEmpty()){
+
+                    int randomSize = rand.nextInt(productPage.sizeOptions.size());
+                    productPage.sizeOptions.get(randomSize).click();
+                }else if (!productPage.sizeOptionsAge.isEmpty()){
+
+                    int randomSize = rand.nextInt(productPage.sizeOptionsAge.size());
+                    productPage.sizeOptionsAge.get(randomSize).click();
+                }
+
+
+
+                BrowserUtils.waitForClickability(productPage.addBasketButton,5);
+                productPage.addBasketButton.click();
+
+                productPage.basketButton.click();
+
+                double productPrice =Double.parseDouble(basketPage.basketProductPrice.getText().replace(",", "").replace(" TL", ""));
+                double basketProductPrice2 =Double.parseDouble(price.replace(",", "").replace(" TL", ""));
+                Assert.assertEquals(productPrice, basketProductPrice2, 0.001);
+
+
+            }else {
+                Select select =new Select(basketPage.quantityOptions);
+                //  basketPage.quantityOptions.click();
+                select.selectByValue(quantity);
+                isOneOption=true;
+            }
+        }
 
         Select select =new Select(basketPage.quantityOptions);
       //  basketPage.quantityOptions.click();
